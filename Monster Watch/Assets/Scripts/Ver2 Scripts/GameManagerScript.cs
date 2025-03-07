@@ -47,7 +47,7 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
         Screen.SetResolution(1920, 1080, true);
-        searchesLeft = 20;
+        searchesLeft = 25;
         inUI = false;
         text.text = "";
         okayButton.SetActive(false);
@@ -74,15 +74,15 @@ public class GameManagerScript : MonoBehaviour
     
     public void YesButton ()
     {
-        radioRigidBody.AddForce((new Vector2(0, 100) * 20) / searchesLeft);
+        radioRigidBody.AddForce((new Vector2(0, 100) * 20) / (searchesLeft + 1));
         float rand = Random.Range(0, 4);
         if (rand >= 3)
         {
-            radioRigidBody.AddTorque(300 / searchesLeft);
+            radioRigidBody.AddTorque(300 / (searchesLeft + 1));
         }
         else
         {
-            radioRigidBody.AddTorque(-300 / searchesLeft);
+            radioRigidBody.AddTorque(-300 / (searchesLeft + 1));
         }
         sounds.clip = Radio;
         sounds.Play();
@@ -133,15 +133,15 @@ public class GameManagerScript : MonoBehaviour
         sounds.clip = Radio;
         sounds.Play();
 
-        radioRigidBody.AddForce((new Vector2(0, 100) * 20) / searchesLeft);
+        radioRigidBody.AddForce((new Vector2(0, 100) * 20) / (searchesLeft + 1));
         float rand = Random.Range(0, 4);
         if (rand >= 3)
         {
-            radioRigidBody.AddTorque(300 / searchesLeft);
+            radioRigidBody.AddTorque(300 / (searchesLeft + 1));
         }
         else
         {
-            radioRigidBody.AddTorque(-300 / searchesLeft);
+            radioRigidBody.AddTorque(-300 / (searchesLeft + 1));
         }
         
 
@@ -180,7 +180,7 @@ public class GameManagerScript : MonoBehaviour
             if (mothGuessed && dragonGuessed && snakeGuessed)
             {
                 float scoring = (searchesLeft + (guessesLeft + 3 * 5) ) * 1000;
-                PlayerPrefs.SetString("Score", "Score: " + scoring.ToString());
+                PlayerPrefs.SetString("Score", "You Win! | Score: " + scoring.ToString());
                 SceneManager.LoadScene(2);
             }
 
