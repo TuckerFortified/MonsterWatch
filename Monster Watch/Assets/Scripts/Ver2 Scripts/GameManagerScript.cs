@@ -34,7 +34,12 @@ public class GameManagerScript : MonoBehaviour
 
     public static bool mothGuessed;
     public static bool dragonGuessed;
+    public static bool snakeGuessed;
 
+    public AudioClip Radio;
+    public AudioClip Click;
+    public AudioClip Win;
+    private AudioSource sounds;
 
 
     public Rigidbody2D radioRigidBody;
@@ -61,9 +66,10 @@ public class GameManagerScript : MonoBehaviour
         friendlyMoth.SetActive(false);
         mothGuessed = false;
         dragonGuessed = false;
-
-        
-}
+        snakeGuessed = false;
+        sounds = gameObject.GetComponent<AudioSource>();
+    }
+    
 
     
     public void YesButton ()
@@ -78,7 +84,9 @@ public class GameManagerScript : MonoBehaviour
         {
             radioRigidBody.AddTorque(-300 / searchesLeft);
         }
-        
+        sounds.clip = Radio;
+        sounds.Play();
+
 
         if (!MicrophoneScript.makingGuess)
         {
@@ -107,7 +115,9 @@ public class GameManagerScript : MonoBehaviour
         text.text = "";
         text.fontSize = 45;
         inUI = false;
-        MicrophoneScript.makingGuess = false;  
+        MicrophoneScript.makingGuess = false;
+        sounds.clip = Click;
+        sounds.Play();
     }
 
 
@@ -118,7 +128,10 @@ public class GameManagerScript : MonoBehaviour
         spinyDragon.SetActive(false);
         peppyDragon.SetActive(false);
         psychicMoth.SetActive(false);
-        friendlyMoth.SetActive(false);
+        friendlyMoth.SetActive(false);  
+
+        sounds.clip = Radio;
+        sounds.Play();
 
         radioRigidBody.AddForce((new Vector2(0, 100) * 20) / searchesLeft);
         float rand = Random.Range(0, 4);
@@ -130,6 +143,7 @@ public class GameManagerScript : MonoBehaviour
         {
             radioRigidBody.AddTorque(-300 / searchesLeft);
         }
+        
 
         monsterGuess = monster;
         if (monsterGuess == tileGuess)
@@ -139,10 +153,20 @@ public class GameManagerScript : MonoBehaviour
             if (monsterGuess == "PSYCHIC MOTH")
             {
                 mothGuessed = true;
+                sounds.clip = Win;
+                sounds.Play();
             }
             else if (monsterGuess == "SPINY DRAGON")
             {
                 dragonGuessed = true;
+                sounds.clip = Win;
+                sounds.Play();
+            }
+            else if (monsterGuess == "MAGMA SNAKE")
+            {
+                snakeGuessed = true;
+                sounds.clip = Win;
+                sounds.Play();
             }
 
             text.text = "Amazing Boss! We found the monster and safely delt with it.";
@@ -153,7 +177,7 @@ public class GameManagerScript : MonoBehaviour
             monsterGuess = "";
             tileGuess = "";
 
-            if (mothGuessed && dragonGuessed)
+            if (mothGuessed && dragonGuessed && snakeGuessed)
             {
                 float scoring = (searchesLeft + (guessesLeft + 3 * 5) ) * 1000;
                 PlayerPrefs.SetString("Score", "Score: " + scoring.ToString());
@@ -190,6 +214,14 @@ public class GameManagerScript : MonoBehaviour
 
     private void Update()
     {
+        /* Seth Note: I added this in just to allow the user to restart the game without
+        having to alt-F4 if something ends up glitching in the game
+        */
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
+
         searchText.text = searchesLeft.ToString();
         guessesText.text = guessesLeft.ToString();
 

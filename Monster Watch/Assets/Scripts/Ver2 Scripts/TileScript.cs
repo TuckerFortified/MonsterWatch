@@ -16,6 +16,9 @@ public class TileScript : MonoBehaviour
     public GameObject noButton;
     public GameObject dialogueBox;
 
+    public AudioClip Click;
+    public AudioSource sounds;
+
     void Start()
     {
         tileInfo = "";
@@ -43,12 +46,18 @@ public class TileScript : MonoBehaviour
             noButton.SetActive(true);
             tileInfo = personalTileInfo;
 
+            sounds.clip = Click;
+            sounds.Play();
+
         }
 
         if (GameManagerScript.inUI && GameManagerScript.makingGuess && MicrophoneScript.makingGuess)
         {
             GameManagerScript.tileGuess = monsterFoundHere;
             GameManagerScript.madeTileGuess = true;
+
+            sounds.clip = Click;
+            sounds.Play();
         }
         
     }

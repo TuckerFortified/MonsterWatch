@@ -11,6 +11,8 @@ public class MicrophoneScript : MonoBehaviour
     public GameObject dialogueBox;
     public GameObject yesButton;
     public GameObject noButton;
+    public AudioClip Click;
+    public AudioSource sounds;
 
     void Start()
     {
@@ -33,6 +35,8 @@ public class MicrophoneScript : MonoBehaviour
             dialogueBox.SetActive(true);
             yesButton.SetActive(true);
             noButton.SetActive(true);
+            sounds.clip = Click;
+            sounds.Play();
         }
     }
 }
