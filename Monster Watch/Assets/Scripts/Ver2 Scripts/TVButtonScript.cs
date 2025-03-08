@@ -18,6 +18,7 @@ public class TVButtonScript : MonoBehaviour
     public AudioClip music10;
     public AudioClip music11;
     public AudioClip music12;
+    public AudioClip music13;
 
     private int musicCount;
 
@@ -53,7 +54,7 @@ public class TVButtonScript : MonoBehaviour
             timer = 0;
 
             musicCount += 1;
-            if (musicCount > 11)
+            if (musicCount > 12)
             {
                 musicCount = 0;
             }
@@ -116,6 +117,11 @@ public class TVButtonScript : MonoBehaviour
             if (musicCount == 11)
             {
                 audioSource.clip = music11;
+                audioSource.Play();
+            }
+            if (musicCount == 12)
+            {
+                audioSource.clip = music12;
                 audioSource.Play();
             }
 
